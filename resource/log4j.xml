@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="LOGFILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${catalina.home}/logs/1govappstore_server.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="com.borneo">
+		<level value="info" />
+	</logger>
+		
+	<logger name="org.springframework.security">
+		<level value="info"/>
+	</logger>
+	
+	<!-- 
+	<logger name="jdbc.sqltiming">
+		<level value="info"/>
+	</logger>
+ -->
+	<root>
+		<level value="info" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGFILE" />
+	</root>
+
+</log4j:configuration>

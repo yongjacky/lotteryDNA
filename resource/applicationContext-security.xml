@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:s="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<description>SpringSecurity Config</description>
+	
+	<s:authentication-manager alias="authenticationManager">
+		<s:authentication-provider user-service-ref="userDetailsService">
+			<s:password-encoder hash="md5" />
+		</s:authentication-provider>
+	</s:authentication-manager>
+	
+	
+	<bean id="accessDeniedHandler"
+          class="com.borneo.framework.security.handler.MyAccessDeniedHandlerImpl">
+        <property name="accessDeniedUrl" value="/error.jsp"/>
+    </bean>
+
+
+    <s:http pattern="/css/**" security='none'/>
+    <s:http pattern="/css2/**" security="none"/>
+    <s:http pattern="/img/**" security="none"/>
+    <s:http pattern="/img2/**" security="none"/>
+    <s:http pattern="/js/**" security="none"/>
+    <s:http pattern="/js2/**" security="none"/>
+    <s:http pattern="/font/**" security="none"/>
+    <s:http pattern="/index.jsp" security="none"/>
+    <s:http pattern="/error.jsp" security="none"/>
+    <s:http pattern="/rest/**" security="none"/>
+    <s:http pattern="/admin/login" security="none"/>
+
+    <s:http pattern="/admin/**" authentication-manager-ref="authenticationManager" auto-config="true"
+            servlet-api-provision="false" use-expressions="true">
+        <s:access-denied-handler ref="accessDeniedHandler"/>
+        <s:intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN')"/>
+        <s:logout logout-url="/admin/logout" logout-success-url="/admin/login"/>
+        <s:form-login always-use-default-target="true" login-processing-url="/admin/j_spring_security_check"
+                      login-page="/admin/login"
+                      default-target-url="/admin/success"
+                      authentication-failure-url="/admin/login?error=1"/>
+        <s:anonymous enabled="true"/>
+    </s:http>
+    
+    <s:http authentication-manager-ref="authenticationManager" auto-config="true"
+            servlet-api-provision="false" use-expressions="true">
+        <s:access-denied-handler ref="accessDeniedHandler"/>
+        <s:logout logout-url="/j_spring_security_logout" logout-success-url="/logout.jsp"/>
+        <s:form-login always-use-default-target="true" login-processing-url="/j_spring_security_check"
+                      login-page="/login.jsp"
+                      default-target-url="/login_success_by_role_redirect.jsp"
+                      authentication-failure-url="/login_failure_by_role_redirect.jsp?error=1"/>
+        <s:anonymous enabled="true"/>
+    </s:http>
+</beans>
