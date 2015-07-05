@@ -1,0 +1,1 @@
+curl -H 'Content-type: application/json' http://localhost:18080/lotteryDNA/api/openSportsToto4dFile

@@ -1,0 +1,1 @@
+*/1	* * * * /Users/jackyyong/Documents/jackyYongProjects/lotteryDNA-Project/development/lotteryDNA/cronjob/local.svr.proc.cronJob.sh
